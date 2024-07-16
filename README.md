@@ -1,2 +1,3 @@
 # ImpoliteChatbot
-chatbot 만들기
+
+open API 사용하여 chatbot 만들기
