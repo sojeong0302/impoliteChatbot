@@ -8,6 +8,7 @@ const MainPage = () => {
     const chatStartButtonClick = () => {
         navigate("/chat");
     };
+
     return (
         <>
             <MainContainer>
