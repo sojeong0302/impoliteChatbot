@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-
+import { Switch } from "@mui/material";
 import {
     ChatContainer,
     ChatElement,
@@ -13,14 +13,17 @@ import {
     ChatSend,
     QuestionInput,
     SendImg,
+    SwitchContainer,
+    SwitchText,
 } from "./ChatPage.style.js";
 import { useSelector, useDispatch } from "react-redux";
-import { setQuestionInput, addUserQuestion, addChatbotAnswer } from "../../redux/actions";
+import { setQuestionInput, addUserQuestion, addChatbotAnswer, setSwitchState } from "../../redux/actions";
 
 const ChatPage = () => {
     const questionInput = useSelector((state) => state.questionInput);
     const userQuestions = useSelector((state) => state.userQuestions);
     const chatbotAnswers = useSelector((state) => state.chatbotAnswers);
+    const switchState = useSelector((state) => state.switchState);
     const dispatch = useDispatch();
     const chatingRef = useRef(null);
 
@@ -44,16 +47,25 @@ const ChatPage = () => {
         }
     }, [userQuestions, chatbotAnswers]);
 
+    const handleSwitchChange = (event) => {
+        dispatch(setSwitchState(event.target.checked));
+    };
+
     return (
         <>
             <ChatContainer switchState={switchState}>
+                <SwitchContainer>
+                    <SwitchText>Dark</SwitchText>
+                    <Switch checked={switchState} onChange={handleSwitchChange} />
+                    <SwitchText>Light</SwitchText>
+                </SwitchContainer>
                 <ChatElement>
                     <ChatingDiv>
                         <Chating ref={chatingRef}>
                             {userQuestions.map((question, index) => (
                                 <React.Fragment key={`user-question-${index}`}>
                                     <User>
-                                        <Question>{question}</Question>
+                                        <Question switchState={switchState}>{question}</Question>
                                     </User>
                                     {chatbotAnswers[index] && (
                                         <Chatbot>

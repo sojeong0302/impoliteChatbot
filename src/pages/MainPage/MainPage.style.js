@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const MainContainer = styled.div`
-    // background-color: #9bd1e5;
     height: 100vh;
     width: 100vw;
     background-color: ${(props) => (props.switchState ? "#9bd1e5" : "#000000")};
@@ -10,8 +9,10 @@ export const MainContainer = styled.div`
 export const SwitchContainer = styled.div`
     display: flex;
     align-items: center;
-    justify-content: end;
     padding: 1%;
+    position: fixed;
+    top: 0;
+    right: 0;
 `;
 
 export const SwitchText = styled.div`

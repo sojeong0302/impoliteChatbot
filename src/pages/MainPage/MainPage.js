@@ -34,7 +34,7 @@ const MainPage = () => {
                             fontSize: "1.5rem",
                             backgroundColor: switchState ? "#1976d2" : "#505050",
                             "&:hover": {
-                                backgroundColor: switchState ? "#115293" : "#404040", // hover 시 배경색
+                                backgroundColor: switchState ? "#115293" : "#404040",
                             },
                         }}
                     >
