@@ -19,7 +19,7 @@ const MainPage = () => {
 
     return (
         <>
-            <MainContainer>
+            <MainContainer switchState={switchState}>
                 <SwitchContainer>
                     <SwitchText>Dark</SwitchText>
                     <Switch checked={switchState} onChange={handleSwitchChange} />
@@ -32,6 +32,10 @@ const MainPage = () => {
                         variant='contained'
                         sx={{
                             fontSize: "1.5rem",
+                            backgroundColor: switchState ? "#1976d2" : "#505050",
+                            "&:hover": {
+                                backgroundColor: switchState ? "#115293" : "#404040", // hover 시 배경색
+                            },
                         }}
                     >
                         채팅시작 ▶

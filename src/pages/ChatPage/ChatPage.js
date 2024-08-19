@@ -46,7 +46,7 @@ const ChatPage = () => {
 
     return (
         <>
-            <ChatContainer>
+            <ChatContainer switchState={switchState}>
                 <ChatElement>
                     <ChatingDiv>
                         <Chating ref={chatingRef}>
