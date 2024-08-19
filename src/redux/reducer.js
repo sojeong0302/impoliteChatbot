@@ -2,6 +2,7 @@ const initialState = {
     questionInput: "",
     userQuestions: [],
     chatbotAnswers: [],
+    switchState: true,
 };
 
 const reducer = (state = initialState, action) => {
@@ -26,6 +27,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 chatbotAnswers: [...state.chatbotAnswers, action.payload],
                 showChatingMessage: true,
+            };
+        case "SET_SWITCH_STATE":
+            return {
+                ...state,
+                switchState: action.payload,
             };
         default:
             return state;

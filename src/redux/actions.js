@@ -12,3 +12,8 @@ export const addChatbotAnswer = (answer) => ({
     type: "ADD_CHATBOT_ANSWER",
     payload: answer,
 });
+
+export const setSwitchState = (state) => ({
+    type: "SET_SWITCH_STATE",
+    payload: state,
+});
