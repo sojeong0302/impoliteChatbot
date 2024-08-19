@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from "react";
-
 import {
     ChatContainer,
     ChatElement,
@@ -16,11 +15,13 @@ import {
 } from "./ChatPage.style.js";
 import { useSelector, useDispatch } from "react-redux";
 import { setQuestionInput, addUserQuestion, addChatbotAnswer } from "../../redux/actions";
+import SwitchComponent from "../../component/Switch/SwitchComponent";
 
 const ChatPage = () => {
     const questionInput = useSelector((state) => state.questionInput);
     const userQuestions = useSelector((state) => state.userQuestions);
     const chatbotAnswers = useSelector((state) => state.chatbotAnswers);
+    const switchState = useSelector((state) => state.switchState);
     const dispatch = useDispatch();
     const chatingRef = useRef(null);
 
@@ -46,14 +47,15 @@ const ChatPage = () => {
 
     return (
         <>
-            <ChatContainer>
+            <ChatContainer $switchState={switchState}>
+                <SwitchComponent />
                 <ChatElement>
                     <ChatingDiv>
                         <Chating ref={chatingRef}>
                             {userQuestions.map((question, index) => (
                                 <React.Fragment key={`user-question-${index}`}>
                                     <User>
-                                        <Question>{question}</Question>
+                                        <Question $switchState={switchState}>{question}</Question>
                                     </User>
                                     {chatbotAnswers[index] && (
                                         <Chatbot>

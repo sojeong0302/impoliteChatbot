@@ -1,21 +1,9 @@
 import styled from "styled-components";
 
 export const MainContainer = styled.div`
-    background-color: #9bd1e5;
     height: 100vh;
     width: 100vw;
-`;
-
-export const SwitchContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    padding: 1%;
-`;
-
-export const SwitchText = styled.div`
-    font-weight: bold;
-    color: white;
+    background-color: ${(props) => (props.$switchState ? "#9bd1e5" : "#000000")};
 `;
 
 export const MainAmong = styled.div`

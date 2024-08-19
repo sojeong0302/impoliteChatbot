@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ChatContainer = styled.div`
-    background-color: #9bd1e5;
+    background-color: ${(props) => (props.$switchState ? "#9bd1e5" : "#000000")};
     height: 100vh;
     width: 100vw;
     overflow-x: hidden;
@@ -69,7 +69,6 @@ export const User = styled.div`
 `;
 
 export const Question = styled.div`
-    background-color: #2196f3;
     width: 40%;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
@@ -78,6 +77,7 @@ export const Question = styled.div`
     color: #ffffff;
     font-size: 1.1rem;
     word-wrap: break-word;
+    background-color: ${(props) => (props.$switchState ? "#2196f3" : "#505050")};
 `;
 
 export const ChatSend = styled.div`
