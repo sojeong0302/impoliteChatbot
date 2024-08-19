@@ -1,30 +1,20 @@
 import { useNavigate } from "react-router-dom";
-import { MainContainer, MainAmong, AmongText, SwitchContainer, SwitchText } from "./MainPage.style.js";
-import { Button, Switch } from "@mui/material";
-import { setSwitchState } from "../../redux/actions";
-import { useSelector, useDispatch } from "react-redux";
-
+import { MainContainer, MainAmong, AmongText } from "./MainPage.style.js";
+import { Button } from "@mui/material";
+import SwitchComponent from "../../component/Switch/SwitchComponent";
+import { useSelector } from "react-redux";
 const MainPage = () => {
     const navigate = useNavigate();
     const switchState = useSelector((state) => state.switchState);
-    const dispatch = useDispatch();
 
     const chatStartButtonClick = () => {
         navigate("/chat");
     };
 
-    const handleSwitchChange = (event) => {
-        dispatch(setSwitchState(event.target.checked));
-    };
-
     return (
         <>
-            <MainContainer switchState={switchState}>
-                <SwitchContainer>
-                    <SwitchText>Dark</SwitchText>
-                    <Switch checked={switchState} onChange={handleSwitchChange} />
-                    <SwitchText>Light</SwitchText>
-                </SwitchContainer>
+            <MainContainer $switchState={switchState}>
+                <SwitchComponent />
                 <MainAmong>
                     <AmongText>IMPOLITE CHATBOT</AmongText>
                     <Button

@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from "react";
-import { Switch } from "@mui/material";
 import {
     ChatContainer,
     ChatElement,
@@ -13,11 +12,10 @@ import {
     ChatSend,
     QuestionInput,
     SendImg,
-    SwitchContainer,
-    SwitchText,
 } from "./ChatPage.style.js";
 import { useSelector, useDispatch } from "react-redux";
-import { setQuestionInput, addUserQuestion, addChatbotAnswer, setSwitchState } from "../../redux/actions";
+import { setQuestionInput, addUserQuestion, addChatbotAnswer } from "../../redux/actions";
+import SwitchComponent from "../../component/Switch/SwitchComponent";
 
 const ChatPage = () => {
     const questionInput = useSelector((state) => state.questionInput);
@@ -47,25 +45,17 @@ const ChatPage = () => {
         }
     }, [userQuestions, chatbotAnswers]);
 
-    const handleSwitchChange = (event) => {
-        dispatch(setSwitchState(event.target.checked));
-    };
-
     return (
         <>
-            <ChatContainer switchState={switchState}>
-                <SwitchContainer>
-                    <SwitchText>Dark</SwitchText>
-                    <Switch checked={switchState} onChange={handleSwitchChange} />
-                    <SwitchText>Light</SwitchText>
-                </SwitchContainer>
+            <ChatContainer $switchState={switchState}>
+                <SwitchComponent />
                 <ChatElement>
                     <ChatingDiv>
                         <Chating ref={chatingRef}>
                             {userQuestions.map((question, index) => (
                                 <React.Fragment key={`user-question-${index}`}>
                                     <User>
-                                        <Question switchState={switchState}>{question}</Question>
+                                        <Question $switchState={switchState}>{question}</Question>
                                     </User>
                                     {chatbotAnswers[index] && (
                                         <Chatbot>

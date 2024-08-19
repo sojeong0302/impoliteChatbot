@@ -1,24 +1,10 @@
 import styled from "styled-components";
 
 export const ChatContainer = styled.div`
-    background-color: ${(props) => (props.switchState ? "#9bd1e5" : "#000000")};
+    background-color: ${(props) => (props.$switchState ? "#9bd1e5" : "#000000")};
     height: 100vh;
     width: 100vw;
     overflow-x: hidden;
-`;
-
-export const SwitchContainer = styled.div`
-    display: flex;
-    align-items: center;
-    padding: 1%;
-    position: fixed;
-    top: 0;
-    right: 0;
-`;
-
-export const SwitchText = styled.div`
-    font-weight: bold;
-    color: white;
 `;
 
 export const ChatElement = styled.div`
@@ -91,7 +77,7 @@ export const Question = styled.div`
     color: #ffffff;
     font-size: 1.1rem;
     word-wrap: break-word;
-    background-color: ${(props) => (props.switchState ? "#2196f3" : "#505050")};
+    background-color: ${(props) => (props.$switchState ? "#2196f3" : "#505050")};
 `;
 
 export const ChatSend = styled.div`
