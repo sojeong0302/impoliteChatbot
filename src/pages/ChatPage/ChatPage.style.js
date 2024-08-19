@@ -4,6 +4,7 @@ export const ChatContainer = styled.div`
     background-color: #9bd1e5;
     height: 100vh;
     width: 100vw;
+    overflow-x: hidden;
 `;
 
 export const ChatElement = styled.div`
@@ -16,7 +17,7 @@ export const ChatElement = styled.div`
     gap: 2%;
 `;
 
-export const Chating = styled.div`
+export const ChatingDiv = styled.div`
     background-color: #f0f0f0;
     width: 70%;
     height: 60%;
@@ -24,7 +25,19 @@ export const Chating = styled.div`
     padding: 2%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const Chating = styled.div`
+    background-color: #f0f0f0;
+    width: 95%;
+    height: 100%;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
     gap: 5%;
+    overflow-y: auto;
 `;
 
 export const Chatbot = styled.div`
@@ -47,6 +60,7 @@ export const Answer = styled.div`
     padding: 1.5%;
     height: auto;
     font-size: 1.1rem;
+    word-wrap: break-word;
 `;
 
 export const User = styled.div`
@@ -63,6 +77,7 @@ export const Question = styled.div`
     height: auto;
     color: #ffffff;
     font-size: 1.1rem;
+    word-wrap: break-word;
 `;
 
 export const ChatSend = styled.div`

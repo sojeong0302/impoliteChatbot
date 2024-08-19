@@ -1,6 +1,9 @@
+import React, { useRef, useEffect } from "react";
+
 import {
     ChatContainer,
     ChatElement,
+    ChatingDiv,
     Chating,
     Chatbot,
     Profile,
@@ -12,14 +15,20 @@ import {
     SendImg,
 } from "./ChatPage.style.js";
 import { useSelector, useDispatch } from "react-redux";
-import { setQuestionInput, setChatbotMessage } from "../../redux/actions";
+import { setQuestionInput, addUserQuestion, addChatbotAnswer } from "../../redux/actions";
 
 const ChatPage = () => {
     const questionInput = useSelector((state) => state.questionInput);
+    const userQuestions = useSelector((state) => state.userQuestions);
+    const chatbotAnswers = useSelector((state) => state.chatbotAnswers);
     const dispatch = useDispatch();
+    const chatingRef = useRef(null);
 
     const handleSend = () => {
-        console.log(questionInput);
+        if (questionInput.trim() === "") return;
+        console.log(`입력된 질문: ${questionInput}`);
+        dispatch(addUserQuestion(questionInput));
+        dispatch(addChatbotAnswer("(임시)나는 챗봇이야."));
         dispatch(setQuestionInput(""));
     };
 
@@ -29,21 +38,33 @@ const ChatPage = () => {
         }
     };
 
-    const chatbotMessage = "(임시)나는 챗봇이야.";
+    useEffect(() => {
+        if (chatingRef.current) {
+            chatingRef.current.scrollTop = chatingRef.current.scrollHeight;
+        }
+    }, [userQuestions, chatbotAnswers]);
 
     return (
         <>
             <ChatContainer>
                 <ChatElement>
-                    <Chating>
-                        <Chatbot>
-                            <Profile src='/image/Impolite_chatbot.png' alt='챗봇 프로필' />
-                            <Answer>{chatbotMessage}</Answer>
-                        </Chatbot>
-                        <User>
-                            <Question>나 회사 상사 때문에 너무 스트레스 받아</Question>
-                        </User>
-                    </Chating>
+                    <ChatingDiv>
+                        <Chating ref={chatingRef}>
+                            {userQuestions.map((question, index) => (
+                                <React.Fragment key={`user-question-${index}`}>
+                                    <User>
+                                        <Question>{question}</Question>
+                                    </User>
+                                    {chatbotAnswers[index] && (
+                                        <Chatbot>
+                                            <Profile src='/image/Impolite_chatbot.png' alt='챗봇 프로필' />
+                                            <Answer>{chatbotAnswers[index]}</Answer>
+                                        </Chatbot>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </Chating>
+                    </ChatingDiv>
                     <ChatSend>
                         <QuestionInput
                             value={questionInput}

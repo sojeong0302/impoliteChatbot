@@ -1,6 +1,7 @@
 const initialState = {
     questionInput: "",
-    chatbotMessage: "",
+    userQuestions: [],
+    chatbotAnswers: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -9,6 +10,22 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 questionInput: action.payload,
+            };
+        case "SET_USER_QUESTION":
+            return {
+                ...state,
+                userQuestion: action.payload,
+            };
+        case "ADD_USER_QUESTION":
+            return {
+                ...state,
+                userQuestions: [...state.userQuestions, action.payload],
+            };
+        case "ADD_CHATBOT_ANSWER":
+            return {
+                ...state,
+                chatbotAnswers: [...state.chatbotAnswers, action.payload],
+                showChatingMessage: true,
             };
         default:
             return state;
