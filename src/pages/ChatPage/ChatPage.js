@@ -16,6 +16,37 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { setQuestionInput, addUserQuestion, addChatbotAnswer } from "../../redux/actions";
 import SwitchComponent from "../../component/Switch/SwitchComponent";
+import axios from "axios";
+
+const REQUEST_ADRESS = `https://api.openai.com/v1/chat/completions`;
+const CHATGPT_API_KEY = process.env.REACT_APP_OPEN_AI_API_KEY;
+
+export async function GptOpenApi(messagesToSend) {
+    const systemMessage = {
+        role: "system",
+        content: "나랑 대화할 때는 무조건 반말 하고, 엄청 싸가지 없어야해.",
+    };
+
+    const messages = [systemMessage, ...messagesToSend];
+
+    const response = await axios.post(
+        REQUEST_ADRESS,
+        {
+            model: "gpt-3.5-turbo",
+            messages: messages,
+            max_tokens: 1000,
+            temperature: 0.7,
+        },
+        {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${CHATGPT_API_KEY}`,
+            },
+        }
+    );
+
+    return response;
+}
 
 const ChatPage = () => {
     const questionInput = useSelector((state) => state.questionInput);
@@ -25,12 +56,19 @@ const ChatPage = () => {
     const dispatch = useDispatch();
     const chatingRef = useRef(null);
 
-    const handleSend = () => {
+    const handleSend = async () => {
         if (questionInput.trim() === "") return;
-        console.log(`입력된 질문: ${questionInput}`);
         dispatch(addUserQuestion(questionInput));
-        dispatch(addChatbotAnswer("(임시)나는 챗봇이야."));
         dispatch(setQuestionInput(""));
+        try {
+            const messagesToSend = [{ role: "user", content: questionInput }];
+            const response = await GptOpenApi(messagesToSend);
+            const chatbotResponse = response.data.choices[0].message.content;
+            dispatch(addChatbotAnswer(chatbotResponse));
+        } catch (error) {
+            console.error(error);
+            dispatch(addChatbotAnswer("Error"));
+        }
     };
 
     const handleKeyDown = (e) => {
