@@ -12,9 +12,10 @@ import {
     ChatSend,
     QuestionInput,
     SendImg,
+    LoadingIndicator,
 } from "./ChatPage.style.js";
 import { useSelector, useDispatch } from "react-redux";
-import { setQuestionInput, addUserQuestion, addChatbotAnswer } from "../../redux/actions";
+import { setQuestionInput, addUserQuestion, addChatbotAnswer, setLoading } from "../../redux/actions";
 import SwitchComponent from "../../component/Switch/SwitchComponent";
 import axios from "axios";
 
@@ -24,7 +25,7 @@ const CHATGPT_API_KEY = process.env.REACT_APP_OPEN_AI_API_KEY;
 export async function GptOpenApi(messagesToSend) {
     const systemMessage = {
         role: "system",
-        content: "나랑 대화할 때는 무조건 반말 하고, 엄청 싸가지 없어야해.",
+        content: "나랑 대화할 때는 무조건 반말 하고, 싸가지 없어야해.",
     };
 
     const messages = [systemMessage, ...messagesToSend];
@@ -53,6 +54,7 @@ const ChatPage = () => {
     const userQuestions = useSelector((state) => state.userQuestions);
     const chatbotAnswers = useSelector((state) => state.chatbotAnswers);
     const switchState = useSelector((state) => state.switchState);
+    const loading = useSelector((state) => state.loading);
     const dispatch = useDispatch();
     const chatingRef = useRef(null);
 
@@ -60,6 +62,7 @@ const ChatPage = () => {
         if (questionInput.trim() === "") return;
         dispatch(addUserQuestion(questionInput));
         dispatch(setQuestionInput(""));
+        dispatch(setLoading(true));
         try {
             const messagesToSend = [{ role: "user", content: questionInput }];
             const response = await GptOpenApi(messagesToSend);
@@ -68,6 +71,8 @@ const ChatPage = () => {
         } catch (error) {
             console.error(error);
             dispatch(addChatbotAnswer("Error"));
+        } finally {
+            dispatch(setLoading(false));
         }
     };
 
@@ -95,11 +100,19 @@ const ChatPage = () => {
                                     <User>
                                         <Question $switchState={switchState}>{question}</Question>
                                     </User>
-                                    {chatbotAnswers[index] && (
+                                    {chatbotAnswers[index] ? (
                                         <Chatbot>
                                             <Profile src='/image/Impolite_chatbot.png' alt='챗봇 프로필' />
                                             <Answer>{chatbotAnswers[index]}</Answer>
                                         </Chatbot>
+                                    ) : (
+                                        loading &&
+                                        index === userQuestions.length - 1 && (
+                                            <Chatbot>
+                                                <Profile src='/image/Impolite_chatbot.png' alt='챗봇 프로필' />
+                                                <LoadingIndicator /> {/* 로딩 인디케이터 */}
+                                            </Chatbot>
+                                        )
                                     )}
                                 </React.Fragment>
                             ))}

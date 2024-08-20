@@ -17,3 +17,8 @@ export const setSwitchState = (state) => ({
     type: "SET_SWITCH_STATE",
     payload: state,
 });
+
+export const setLoading = (loading) => ({
+    type: "SET_LOADING",
+    payload: loading,
+});

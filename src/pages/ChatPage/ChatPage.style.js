@@ -1,4 +1,10 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const blinkAnimation = keyframes`
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+`;
 
 export const ChatContainer = styled.div`
     background-color: ${(props) => (props.$switchState ? "#9bd1e5" : "#000000")};
@@ -45,6 +51,20 @@ export const Chatbot = styled.div`
     gap: 1%;
     justify-content: flex-start;
     align-items: flex-start;
+`;
+
+export const LoadingIndicator = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    color: gray;
+    height: 50%;
+
+    &::after {
+        content: "...";
+        animation: ${blinkAnimation} 1.5s infinite;
+    }
 `;
 
 export const Profile = styled.img`

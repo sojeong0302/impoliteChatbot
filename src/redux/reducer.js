@@ -3,6 +3,7 @@ const initialState = {
     userQuestions: [],
     chatbotAnswers: [],
     switchState: true,
+    loading: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -33,6 +34,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 switchState: action.payload,
             };
+        case "SET_LOADING":
+            return { ...state, loading: action.payload };
         default:
             return state;
     }
