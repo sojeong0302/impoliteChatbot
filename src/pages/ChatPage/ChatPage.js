@@ -12,11 +12,15 @@ import {
     ChatSend,
     QuestionInput,
     SendImg,
+    LoadingIndicator,
+    ButtonCointer,
 } from "./ChatPage.style.js";
 import { useSelector, useDispatch } from "react-redux";
-import { setQuestionInput, addUserQuestion, addChatbotAnswer } from "../../redux/actions";
+import { setQuestionInput, addUserQuestion, addChatbotAnswer, setLoading, resetChat } from "../../redux/actions";
 import SwitchComponent from "../../component/Switch/SwitchComponent";
 import axios from "axios";
+import ButtonComponent from "../../component/Button/ButtonComponent.js";
+import { useNavigate } from "react-router-dom";
 
 const REQUEST_ADRESS = `https://api.openai.com/v1/chat/completions`;
 const CHATGPT_API_KEY = process.env.REACT_APP_OPEN_AI_API_KEY;
@@ -24,7 +28,7 @@ const CHATGPT_API_KEY = process.env.REACT_APP_OPEN_AI_API_KEY;
 export async function GptOpenApi(messagesToSend) {
     const systemMessage = {
         role: "system",
-        content: "나랑 대화할 때는 무조건 반말 하고, 엄청 싸가지 없어야해.",
+        content: "나랑 대화할 때는 무조건 반말 하고, 싸가지 없어야해.",
     };
 
     const messages = [systemMessage, ...messagesToSend];
@@ -53,13 +57,16 @@ const ChatPage = () => {
     const userQuestions = useSelector((state) => state.userQuestions);
     const chatbotAnswers = useSelector((state) => state.chatbotAnswers);
     const switchState = useSelector((state) => state.switchState);
+    const loading = useSelector((state) => state.loading);
     const dispatch = useDispatch();
     const chatingRef = useRef(null);
+    const navigate = useNavigate();
 
     const handleSend = async () => {
         if (questionInput.trim() === "") return;
         dispatch(addUserQuestion(questionInput));
         dispatch(setQuestionInput(""));
+        dispatch(setLoading(true));
         try {
             const messagesToSend = [{ role: "user", content: questionInput }];
             const response = await GptOpenApi(messagesToSend);
@@ -68,6 +75,8 @@ const ChatPage = () => {
         } catch (error) {
             console.error(error);
             dispatch(addChatbotAnswer("Error"));
+        } finally {
+            dispatch(setLoading(false));
         }
     };
 
@@ -83,6 +92,11 @@ const ChatPage = () => {
         }
     }, [userQuestions, chatbotAnswers]);
 
+    const goBackButtonClick = () => {
+        dispatch(resetChat());
+        navigate(-1);
+    };
+
     return (
         <>
             <ChatContainer $switchState={switchState}>
@@ -95,11 +109,19 @@ const ChatPage = () => {
                                     <User>
                                         <Question $switchState={switchState}>{question}</Question>
                                     </User>
-                                    {chatbotAnswers[index] && (
+                                    {chatbotAnswers[index] ? (
                                         <Chatbot>
                                             <Profile src='/image/Impolite_chatbot.png' alt='챗봇 프로필' />
                                             <Answer>{chatbotAnswers[index]}</Answer>
                                         </Chatbot>
+                                    ) : (
+                                        loading &&
+                                        index === userQuestions.length - 1 && (
+                                            <Chatbot>
+                                                <Profile src='/image/Impolite_chatbot.png' alt='챗봇 프로필' />
+                                                <LoadingIndicator />
+                                            </Chatbot>
+                                        )
                                     )}
                                 </React.Fragment>
                             ))}
@@ -115,6 +137,9 @@ const ChatPage = () => {
                         <SendImg onClick={handleSend} src='/image/Send.png' alt='화살표' />
                     </ChatSend>
                 </ChatElement>
+                <ButtonCointer>
+                    <ButtonComponent ButtonOnClick={goBackButtonClick} ButtonMessage='뒤로 가기' />
+                </ButtonCointer>
             </ChatContainer>
         </>
     );
