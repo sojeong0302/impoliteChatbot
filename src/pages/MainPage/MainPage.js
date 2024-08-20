@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
 import { MainContainer, MainAmong, AmongText } from "./MainPage.style.js";
-import { Button } from "@mui/material";
 import SwitchComponent from "../../component/Switch/SwitchComponent";
 import { useSelector } from "react-redux";
-const MainPage = () => {
-    const navigate = useNavigate();
-    const switchState = useSelector((state) => state.switchState);
+import ButtonComponent from "../../component/Button/ButtonComponent.js";
+import { useNavigate } from "react-router-dom";
 
+const MainPage = () => {
+    const switchState = useSelector((state) => state.switchState);
+    const navigate = useNavigate();
     const chatStartButtonClick = () => {
         navigate("/chat");
     };
@@ -17,19 +17,7 @@ const MainPage = () => {
                 <SwitchComponent />
                 <MainAmong>
                     <AmongText>IMPOLITE CHATBOT</AmongText>
-                    <Button
-                        onClick={chatStartButtonClick}
-                        variant='contained'
-                        sx={{
-                            fontSize: "1.5rem",
-                            backgroundColor: switchState ? "#1976d2" : "#505050",
-                            "&:hover": {
-                                backgroundColor: switchState ? "#115293" : "#404040",
-                            },
-                        }}
-                    >
-                        채팅시작 ▶
-                    </Button>
+                    <ButtonComponent ButtonOnClick={chatStartButtonClick} ButtonMessage='채팅시작 ▶' />
                 </MainAmong>
             </MainContainer>
         </>

@@ -15,7 +15,7 @@ export const ChatContainer = styled.div`
 
 export const ChatElement = styled.div`
     width: 100%;
-    height: 100%;
+    height: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -74,7 +74,7 @@ export const Profile = styled.img`
 
 export const Answer = styled.div`
     background-color: #ffffff;
-    width: 40%;
+    width: 35%;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     padding: 1.5%;
@@ -89,7 +89,7 @@ export const User = styled.div`
 `;
 
 export const Question = styled.div`
-    width: 40%;
+    width: 35%;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     padding: 1.5%;
@@ -131,4 +131,10 @@ export const SendImg = styled.img`
     width: 3rem;
     height: 3rem;
     cursor: pointer;
+`;
+
+export const ButtonCointer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    padding: 1%;
 `;

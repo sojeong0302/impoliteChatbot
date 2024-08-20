@@ -13,11 +13,14 @@ import {
     QuestionInput,
     SendImg,
     LoadingIndicator,
+    ButtonCointer,
 } from "./ChatPage.style.js";
 import { useSelector, useDispatch } from "react-redux";
-import { setQuestionInput, addUserQuestion, addChatbotAnswer, setLoading } from "../../redux/actions";
+import { setQuestionInput, addUserQuestion, addChatbotAnswer, setLoading, resetChat } from "../../redux/actions";
 import SwitchComponent from "../../component/Switch/SwitchComponent";
 import axios from "axios";
+import ButtonComponent from "../../component/Button/ButtonComponent.js";
+import { useNavigate } from "react-router-dom";
 
 const REQUEST_ADRESS = `https://api.openai.com/v1/chat/completions`;
 const CHATGPT_API_KEY = process.env.REACT_APP_OPEN_AI_API_KEY;
@@ -57,6 +60,7 @@ const ChatPage = () => {
     const loading = useSelector((state) => state.loading);
     const dispatch = useDispatch();
     const chatingRef = useRef(null);
+    const navigate = useNavigate();
 
     const handleSend = async () => {
         if (questionInput.trim() === "") return;
@@ -87,6 +91,11 @@ const ChatPage = () => {
             chatingRef.current.scrollTop = chatingRef.current.scrollHeight;
         }
     }, [userQuestions, chatbotAnswers]);
+
+    const goBackButtonClick = () => {
+        dispatch(resetChat());
+        navigate(-1);
+    };
 
     return (
         <>
@@ -128,6 +137,9 @@ const ChatPage = () => {
                         <SendImg onClick={handleSend} src='/image/Send.png' alt='화살표' />
                     </ChatSend>
                 </ChatElement>
+                <ButtonCointer>
+                    <ButtonComponent ButtonOnClick={goBackButtonClick} ButtonMessage='뒤로 가기' />
+                </ButtonCointer>
             </ChatContainer>
         </>
     );

@@ -36,6 +36,12 @@ const reducer = (state = initialState, action) => {
             };
         case "SET_LOADING":
             return { ...state, loading: action.payload };
+        case "RESET_CHAT":
+            return {
+                ...state,
+                userQuestions: [],
+                chatbotAnswers: [],
+            };
         default:
             return state;
     }
