@@ -119,7 +119,7 @@ const ChatPage = () => {
                                         index === userQuestions.length - 1 && (
                                             <Chatbot>
                                                 <Profile src='/image/Impolite_chatbot.png' alt='챗봇 프로필' />
-                                                <LoadingIndicator /> {/* 로딩 인디케이터 */}
+                                                <LoadingIndicator />
                                             </Chatbot>
                                         )
                                     )}

@@ -27,7 +27,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 chatbotAnswers: [...state.chatbotAnswers, action.payload],
-                showChatingMessage: true,
             };
         case "SET_SWITCH_STATE":
             return {
