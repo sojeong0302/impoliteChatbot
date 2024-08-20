@@ -22,11 +22,18 @@ const REQUEST_ADRESS = `https://api.openai.com/v1/chat/completions`;
 const CHATGPT_API_KEY = process.env.REACT_APP_OPEN_AI_API_KEY;
 
 export async function GptOpenApi(messagesToSend) {
+    const systemMessage = {
+        role: "system",
+        content: "나랑 대화할 때는 무조건 반말 하고, 엄청 싸가지 없어야해.",
+    };
+
+    const messages = [systemMessage, ...messagesToSend];
+
     const response = await axios.post(
         REQUEST_ADRESS,
         {
             model: "gpt-3.5-turbo",
-            messages: messagesToSend,
+            messages: messages,
             max_tokens: 1000,
             temperature: 0.7,
         },
@@ -37,6 +44,7 @@ export async function GptOpenApi(messagesToSend) {
             },
         }
     );
+
     return response;
 }
 
